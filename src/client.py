@@ -1,32 +1,28 @@
-import socket
+import urllib.request
+import _thread
 import random
 
-def nslookup(domain):
-    try:
-        ip_addresses = socket.gethostbyname_ex(domain)[-1]
-        return ip_addresses
-    except socket.gaierror as e:
-        return [str(e)]
+def send():
+    while True:
+        try:
+            pic = urllib.request.urlopen('https://img.alicdn.com/imgextra/i1/O1CN01xA4P9S1JsW2WEg0e1_!!6000000001084-2-tps-2880-560.png?{}'.format(str(ranom.random())))
+            del pic
+        except:
+            send()
 
 def main():
-    domain = 'awaland.xyz' # A cloudflare proxy domain
-    ip_list = nslookup(domain)
     for i in range(1024):
         try:
-            for host in ip_list:
-                sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                sock.connect((host, 80))
-                data = b'0'
-                sock.sendall(data)
-                sock.close()
+            _thread.start_new(send, ())
         except Exception as e:
             print(e)
 
 if __name__ == '__main__':
     print('PCDN CHECK BYPASSER')
     print('Use Ctrl-C Return to exit.')
-    try:
-        while True:
+    while True:
+        try:
             main()
-    except KeyboardInterrupt:
-        pass
+        except KeyboardInterrupt:
+            break
+    raise SystemExit(0)
