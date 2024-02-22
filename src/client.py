@@ -7,3 +7,7 @@ def nslookup(domain):
     except socket.gaierror as e:
         return [str(e)]
 
+def main():
+    domain = 'awaland.xyz' # A cloudflare proxy domain
+    ip_list = nslookup(domain)
+    
