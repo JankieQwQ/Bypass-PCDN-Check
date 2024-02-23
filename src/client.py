@@ -27,22 +27,36 @@ class request:
             except Exception as e:
                 print(e)
 
+class config:
+    def __init__(self,filename='data.csv'):
+        self.filename = filename
+
+    def write(text):
+        with open(self.filename,'w') as writer:
+            writer.write(text)
+
+    def read():
+        answer = ''
+        with open(self.filename,'r') as reader:
+            answer = reader.read()
+        return answer
+
 if __name__ == '__main__':
     print('PCDN CHECK BYPASSER')
     print('Use Ctrl-C Return to exit.')
-    should = 0
-    try:
-        config = open('limit.csv','r')
-        should = int(config.read())
+    
+    limit = 0
+    limit_file = config()
+    try: limit = limit_file.read()
     except:
-        limits = int(input('Please enter the maximum flow rate(Mbps):'))
-        limits = (limits / 8 / 2) + 2
-        with open('limit.csv','w') as configWriter:
-            configWriter.write(str(limits))
-        should = limits
+        temp_limit = int(int(input('Please enter the flow limit(Mbps):')) * 0.0625 + 1)
+        limit_file.write(str(temp_limit))
+        limit = temp_limit
+    bypasser = request(limit)
+    
     while True:
         try:
-            main(should)
+            bypasser.main()
         except KeyboardInterrupt:
             break
     raise SystemExit(0)
