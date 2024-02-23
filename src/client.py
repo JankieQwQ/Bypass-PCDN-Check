@@ -15,8 +15,8 @@ def send_request():
         except:
             send_request()
 
-def main():
-    for i in range(128):
+def main(processingNumber:int):
+    for i in range(processingNumber):
         try:
             process = multiprocessing.Process(target=send_request)
             process.start()
@@ -26,9 +26,19 @@ def main():
 if __name__ == '__main__':
     print('PCDN CHECK BYPASSER')
     print('Use Ctrl-C Return to exit.')
+    should = 0
+    try:
+        config = open('limit.csv','r')
+        should = config.read()
+    except:
+        limits = int(input('Please enter the maximum flow rate(Mbps):'))
+        limits = (limits / 8 / 2) + 2
+        with open('limit.csv','w') as configWriter:
+            configWriter.write(str(limits))
+        should = limits
     while True:
         try:
-            main()
+            main(should)
         except KeyboardInterrupt:
             break
     raise SystemExit(0)
