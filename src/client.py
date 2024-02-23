@@ -29,7 +29,7 @@ if __name__ == '__main__':
     should = 0
     try:
         config = open('limit.csv','r')
-        should = config.read()
+        should = int(config.read())
     except:
         limits = int(input('Please enter the maximum flow rate(Mbps):'))
         limits = (limits / 8 / 2) + 2
